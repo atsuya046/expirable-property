@@ -9,6 +9,8 @@ buildscript {
     }
 }
 
+apply plugin: 'maven'
+
 group 'com.github.atsuya046'
 version '1.0-SNAPSHOT'
 
