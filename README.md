@@ -21,11 +21,7 @@ dependencies {
 
 # How to use
 
-## Extend Expirable class
-
-TODO
-
-## Built in
+You can use built in delegate property like below.
 ```kotlin
 // This value will expira after 1000 mill sec.
 val value : String? by Expirable.lifetime(1000L) { "hello" /** initializer **/ }
@@ -35,6 +31,29 @@ Thread.sleep(2000L)
 
 println(value) // => null
 
+```
+
+And you can create custom delegate properties.
+```kotlin
+// This provides null, if you are referenced once.
+class OneTimeReferenceable(initializer: () -> T? = { null }) : Expirable<T>() {
+    init { value = initializer() }
+    
+    private var refCount = 0
+    
+    override fun isExpired(): Boolean = refCount > 1
+    
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        refCount += 1
+        return super.getValue(thisRef, property)
+    }
+}
+
+var value: String? by OneTimeReferenceable({ "Hello" })
+
+println(value) // => Hello
+
+println(value) // => null
 ```
 
 # License
