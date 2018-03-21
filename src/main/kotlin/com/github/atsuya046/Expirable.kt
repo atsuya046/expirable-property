@@ -11,7 +11,7 @@ abstract class Expirable<T>: ReadWriteProperty<Any?, T?> {
 
     /**
      * Expiration rule.
-     * If this method returns true, [getValue] will return null.
+     * If this method returns true, [getValue] will returns null.
      *
      * @return if expired return true
      */
