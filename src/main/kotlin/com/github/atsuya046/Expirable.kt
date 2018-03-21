@@ -3,9 +3,18 @@ package com.github.atsuya046
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+/**
+ * Provide ReadWriteProperty has expiration rule.
+ */
 abstract class Expirable<T>: ReadWriteProperty<Any?, T?> {
     var value: T? = null
 
+    /**
+     * Expiration rule.
+     * If this method returns true, [getValue] will return null.
+     *
+     * @return if expired return true
+     */
     protected abstract fun isExpired(): Boolean
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T? {
