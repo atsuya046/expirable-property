@@ -5,16 +5,14 @@ import org.junit.Test
 
 class HasLifeTimeTest {
     @Test
-    fun isNotExpiredInLifeSpan() {
-        val value: Int? by Expirable.withLifetime(2L) { 1 }
+    fun test() {
+        val default = 1
+        var value: Int by Expirable.withLifetime(2L, default)
+        value = 100
         Thread.sleep(1)
-        Assert.assertTrue(value == 1)
-    }
+        Assert.assertTrue(value == 100)
 
-    @Test
-    fun isExpiredOutOfLifeSpan() {
-        val value: Int? by Expirable.withLifetime(0L) { 1 }
-        Thread.sleep(1)
-        Assert.assertTrue(value == null)
+        Thread.sleep(2)
+        Assert.assertTrue(value == default)
     }
 }
